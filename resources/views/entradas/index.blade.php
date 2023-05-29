@@ -1,5 +1,9 @@
 @extends(('layouts.master'))
 
+@section('meta')
+    <meta name="csrf-token" content="{{csrf_token()}}">
+@endsection
+
 @section('title', 'Articulos')
 
 @section('content')
@@ -76,6 +80,10 @@
                             <input id="inputCantidad" type="number" step="0.01" name="cantidad" class="form-control">
                             <label>Cantidad</label>
                         </div>
+                        <div class="form-floating">
+                            <input id="inputNota" type="text" name="nota" class="form-control">
+                            <label>Nota</label>
+                        </div>
 
                     </form>
                 </div>
@@ -127,22 +135,22 @@
 
         let btnGuardarArt = document.getElementById("btnGuardarArt");
 
-        //inputs de nuevo articulo
-        let inputNombreArt = document.getElementById("inputNombreArt");
-
         let tableContent = document.getElementById("table-content");
 
         let uri;
         let data;
         let request;
 
+        //para guardar una nueva entrada
         function obtenerValoresEntrada() {
             let selectArt = document.getElementById("selectArticulo").value;
             let inputCantidad = document.getElementById("inputCantidad").value;
+            let inputNota = document.getElementById("inputNota").value;
 
             data = {
-                nombreArt: selectArt,
+                idArticulo: selectArt,
                 cantidad: inputCantidad,
+                nota: inputNota
             }
 
             request = {
@@ -168,12 +176,57 @@
                 // .then(response=>response.json()) //esto era cuando se mandaba un json en el response (en web.php)
                 .then(response=>response.text()) //ahora se manda texto porque recibe un view que es html
                 .then(function (result) {
-                    // console.log(result) esto era para pruebas
+
                     BSmodalNuevaEntrada.hide();
                     document.getElementById("selectArticulo").value = "";
                     document.getElementById("inputCantidad").value = "";
 
                     tableContent.innerHTML = result;
+                })
+                .catch(function (error) {
+                    console.error(error)
+                });
+        }
+
+
+
+
+
+        // para guardar un nuevo articulo
+
+        function obtenerValoresArticulo() {
+            let inputNombreArt = document.getElementById("inputNombreArt").value;
+
+            data = {
+                nombre: inputNombreArt
+            }
+
+            request = {
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                method: 'post',
+                body: JSON.stringify(data)
+            }
+        }
+
+        btnGuardarArt.onclick = function () {
+            uri = '/articulos';
+            obtenerValoresArticulo();
+            for (const key in data) {
+                if (data[key] === "" || !data[key]) {
+                    alert(`Debe introducir un valor en el campo ${key}`);
+                    return;
+                }
+            }
+            fetch(uri, request)
+                .then(response=>response.text())
+                .then(function(result) {
+                    BSmodalNuevoArt.hide();
+                    document.getElementById("inputNombreArt").value = "";
+                    location.reload();
+
                 })
                 .catch(function (error) {
                     console.error(error)

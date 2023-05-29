@@ -29,7 +29,12 @@ class ArticulosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $articulo = new Articulo();
+        $articulo->nombre = $request->nombre;
+
+        $articulo->save();
     }
 
     /**
