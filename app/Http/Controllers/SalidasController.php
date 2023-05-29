@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entrada;
+use App\Models\Articulo;
 use App\Models\Salida;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SalidasController extends Controller
 {
@@ -13,8 +14,9 @@ class SalidasController extends Controller
      */
     public function index()
     {
-        $salidas = Salida::orderBy('updated_at', 'asc')->get();
-        return view('salidas.index')->with('salidas', $salidas);
+        $salidas = Salida::orderBy('updated_at', 'desc')->get();
+        $articulos = Articulo::orderBy('nombre', 'asc')->get();
+        return view('salidas.index')->with(compact('salidas', 'articulos'));
     }
 
     /**
@@ -30,7 +32,34 @@ class SalidasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $idArticulo = $request->input('idArticulo');
+        $cantidad = $request->input('cantidad');
+        $idUsuario = Auth::id();
+        $nota = $request->input('nota');
+
+        //crear la nueva entrada
+        $salida = new Salida();
+        $salida->idArticulo = $idArticulo;
+        $salida->cantidad = $cantidad;
+        $salida->idUsuario = $idUsuario;
+        $salida->nota = $nota;
+
+
+        //guardar la entrada
+        $salida->save();
+
+        //buscar el articulo a modificar cantidad en inventario y guardarlo en variable
+        $articuloMod =Articulo::find($idArticulo);
+
+        //modificar cantidad del articulo
+        $articuloMod->cantidad =  (number_format($articuloMod->cantidad, 2)) - number_format($cantidad, 2);
+
+        //guardar articulo
+        $articuloMod->save();
+
+        $salidas = Salida::orderBy('updated_at', 'asc')->get();
+
+        return view('salidas.table', compact('salidas'));
     }
 
     /**

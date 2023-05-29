@@ -14,7 +14,7 @@ class EntradasController extends Controller
      */
     public function index()
     {
-        $entradas = Entrada::orderBy('updated_at', 'asc')->get();
+        $entradas = Entrada::orderBy('updated_at', 'desc')->get();
         $articulos = Articulo::orderBy('nombre', 'asc')->get();
         return view('entradas.index')->with(compact('entradas', 'articulos'));
     }

@@ -1,5 +1,9 @@
 @extends(('layouts.master'))
 
+@section('meta')
+    <meta name="csrf-token" content="{{csrf_token()}}">
+@endsection
+
 @section('title', 'Articulos')
 
 @section('content')
@@ -11,7 +15,7 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Lista de salidas</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-nuevo">Registrar nueva salida</button>
+                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-nueva-salida">Registrar nueva salida</button>
                 </div>
             </div>
 
@@ -97,7 +101,6 @@
 
         let BSmodalNuevaSalida = new bootstrap.Modal(modalNuevaSalida);
 
-
         let btnGuardar = document.getElementById("btnGuardar");
 
         let tableContent = document.getElementById("table-content");
@@ -106,8 +109,8 @@
         let data;
         let request;
 
-        //para guardar una nueva entrada
-        function obtenerValoresEntrada() {
+        //para guardar una nueva salida
+        function obtenerValoresSalida() {
             let selectArt = document.getElementById("selectArticulo").value;
             let inputCantidad = document.getElementById("inputCantidad").value;
             let inputNota = document.getElementById("inputNota").value;
@@ -129,8 +132,8 @@
         }
 
         btnGuardar.onclick = function () {
-            uri = '/entradas';
-            obtenerValoresEntrada();
+            uri = '/salidas';
+            obtenerValoresSalida();
             for (const key in data) {
                 if (data[key] === "" || !data[key]) {
                     alert(`Debe introducir un valor en el campo ${key}`);
@@ -142,7 +145,7 @@
                 .then(response=>response.text()) //ahora se manda texto porque recibe un view que es html
                 .then(function (result) {
 
-                    BSmodalNuevaEntrada.hide();
+                    BSmodalNuevaSalida.hide();
                     document.getElementById("selectArticulo").value = "";
                     document.getElementById("inputCantidad").value = "";
 
