@@ -1,6 +1,8 @@
 Proyecto final para el curso de desarrollo de aplicaciones web
 
-El script para crear la base de datos está incluído en este proyecto, deberá correrlo para crearla en su
+La base de datos fue realizada utilizando migrations, puede utilizar el comando:
+        php artisan migrate
+    para crear las tablas de la base de datos. se incluye también el dump de la base de datos para crearla mysqlworkbench o cualquier otro,
 
 Para ingresar debe registrarse, puede usar cualquier correo y cualquier nombre que no esté en uso
 
@@ -10,7 +12,8 @@ Se presenta el inventario (o un mensaje diciendo que no hay artículos si ningun
 
 Al lado tiene una barra de opciones para ver el inventario, las entradas y las salidas
 
-Si desea ingresar un articulo debe ir a entradas -> botón de registrar nueva entrada. Se mostrará un formulario para registrar la entrada. Si el artículo no aparece en la lista desplegable deberá de seleccionar la opción de crear artículo, una vez creado en el formulario. Este estará disponible para poder registrar la entrada
+Si desea ingresar un articulo debe ir a entradas -> botón de registrar nueva entrada. Se mostrará un formulario para registrar la entrada, solo se muestran artículos existentes.
+Si desea agregar un artículo nuevo, deberá accionar el botón de Ingresar nuevo artículo, donde se mostrará un formulario para crear el nuevo artículo
 
 Para registrar una salida debe ir a salidas -> botón de registrar nueva salida.
 

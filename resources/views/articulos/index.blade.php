@@ -21,6 +21,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Existencias</th>
+                        <th scope="col">Operaciones</th>
                     </tr>
                     <tbody>
                     @php
@@ -32,6 +33,11 @@
                             <td>{{$articulo->id}}</td>
                             <td><a class="btn btn-sm" href="/articulos/{{$articulo->id}}">{{$articulo->nombre}}</a></td>
                             <td>{{$articulo->cantidad}}</td>
+                            <td>
+                                <div class="mb-1">
+                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{$cuenta->idCuenta}}" type="submit">Eliminar</button>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
