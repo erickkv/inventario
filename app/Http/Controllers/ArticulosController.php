@@ -67,6 +67,8 @@ class ArticulosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $articulo = Articulo::find($id);
+        $articulo->delete();
+        return redirect('/articulos');
     }
 }

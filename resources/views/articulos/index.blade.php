@@ -35,17 +35,44 @@
                             <td>{{$articulo->cantidad}}</td>
                             <td>
                                 <div class="mb-1">
-                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{$cuenta->idCuenta}}" type="submit">Eliminar</button>
+                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminar-{{$articulo->id}}" type="submit">Eliminar</button>
                                 </div>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
-
                 </table>
             @else
                 <p>No hay ninún artículo en inventario, por favor ingrese uno en "Entradas"</p>
             @endif
         </main>
     </div>
+
+
+    <!-- Modal -->
+    @foreach($articulos as $articulo)
+        <div class="modal fade" id="modal-eliminar-{{$articulo->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-bg-danger">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">¿Realmente desea eliminar este artículo y sus existencias?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Artículo a eliminar: {{$articulo->nombre}}
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/articulos/{{$articulo->id}}" method="post">
+                            @method('delete')
+                            {{csrf_field()}}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button class="btn btn-primary bg-danger" type="submit">Eliminar</button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

@@ -1,8 +1,27 @@
 Proyecto final para el curso de desarrollo de aplicaciones web
 
+
+
 La base de datos fue realizada utilizando migrations, puede utilizar el comando:
-        php artisan migrate
-    para crear las tablas de la base de datos. se incluye también el dump de la base de datos para crearla mysqlworkbench o cualquier otro,
+        php artisan migrate (usando una consola siempre dentro de la carpeta del proyecto)
+        Antes de poder hacer esto, debe crear la base de datos (sin tablas)
+        En el archivo .env del proyecto ingrese lo siguiente:
+
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=inventario (u otro nombre que quiera)
+        DB_USERNAME=(seleccione un usuario)
+        DB_PASSWORD=(seleccione la contraseña del usuario que eligió)
+
+
+
+    para crear las tablas de la base de datos.
+
+Deberá crear la base de datos: "inventario"
+se incluye la carpeta: "DDL y DML" con scripts para crear las tablas e insertar algunos datos en la base de datos.
+
+
 
 Para ingresar debe registrarse, puede usar cualquier correo y cualquier nombre que no esté en uso
 
