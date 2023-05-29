@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entrada;
+use App\Models\Articulo;
 use Illuminate\Http\Request;
 
 class EntradasController extends Controller
@@ -13,7 +14,8 @@ class EntradasController extends Controller
     public function index()
     {
         $entradas = Entrada::orderBy('updated_at', 'asc')->get();
-        return view('entradas.index')->with('entradas', $entradas);
+        $articulos = Articulo::orderBy('nombre', 'asc')->get();
+        return view('entradas.index')->with(compact('entradas', 'articulos'));
     }
 
     /**
